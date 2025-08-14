@@ -1,0 +1,64 @@
+#!/bin/bash
+
+export LC_ALL=C
+
+# reads line from text file and creats an array
+function read_line_to_array {
+  local file="$1"
+  local array_name="$2"
+
+  if [[ ! -f $file ]]; then
+    echo "Error: File - $file not found"
+    return 1
+  fi
+
+  declare -n target_array="$array_name"
+  mapfile -t target_array < <(sed 's/\r$//' "$file" | sed '/^$/d')
+}
+
+# checking if entity name is provided
+if [[ -z $1 ]]; then
+  echo "entity name is required"
+  echo "usage: $0 <entity_name>"
+  exit 1
+fi
+
+# name of the new entity
+entity_name=$1
+
+# checking if the entity name is in PascalCase or not
+if [[ ! $entity_name =~ ^[A-Z][a-zA-Z0-9]*$ ]]; then
+  echo "Error: $entity_name is not PascalCase"
+  exit 1
+fi
+
+# Check if entity exists; if not, add it
+python3 - <<EOF
+import json, sys
+filename = "entities.json"
+
+with open(filename, "r") as f:
+    data = json.load(f)
+
+entities = data.get("entities", [])
+
+if "${entity_name}" in entities:
+    print(f"Error: ${entity_name} already exists in {filename}")
+    sys.exit(1)
+
+print(f"Adding ${entity_name} to {filename}")
+entities.append("${entity_name}")
+data["entities"] = entities
+
+with open(filename, "w") as f:
+    json.dump(data, f, indent=2)
+EOF
+
+# Read folders from folders.txt
+folders=()
+read_line_to_array "./folders.txt" folders
+
+# Create folders for the entity
+for folder in "${folders[@]}"; do
+  mkdir -p "$folder/$entity_name"
+done

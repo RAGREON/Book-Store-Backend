@@ -1,0 +1,9 @@
+Commands
+Commands/Handlers
+Controllers
+DTOs
+Middleware
+Models
+Queries
+Queries/Handlers
+Services
