@@ -5,5 +5,5 @@ public record class CreateBookDto
   string Name,
   DateOnly ReleaseDate,
   string Description,
-  List<GenreDto> Genres
+  List<int> GenreIDs
 );

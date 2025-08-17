@@ -3,6 +3,7 @@ using MediatR;
 using Store.Api.Models;
 using Store.Api.DTOs;
 using Store.Commands;
+using Store.Queries;
 
 namespace Store.Api.Controllers;
 
@@ -37,4 +38,13 @@ public class GenreController : ControllerBase
     return Ok();
   }
 
+
+  [HttpGet]
+  [Route("all")]
+  public async Task<IActionResult> GetGenres()
+  {
+    var command = new GetGenresQuery();
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
 }

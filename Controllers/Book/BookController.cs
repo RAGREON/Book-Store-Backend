@@ -3,6 +3,7 @@ using MediatR;
 using Store.Api.Models;
 using Store.Api.DTOs;
 using Store.Commands;
+using Store.Queries;
 
 namespace Store.Api.Controllers;
 
@@ -24,9 +25,27 @@ public class BookController : ControllerBase
     var result = await _mediator.Send(command);
     return CreatedAtAction
     (
-      actionName: "GetBook",
+      actionName: "GetBooks",
       routeValues: new { id = result.Id },
       value: result 
     );
+  }
+
+  [HttpGet]
+  [Route("{id}")]
+  public async Task<ActionResult<BookDto>> GetBookById([FromRoute] int id)
+  {
+    var command = new GetBookByIdQuery(id);
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpGet]
+  [Route("all")]
+  public async Task<ActionResult<List<BookDto>>> GetBooks()
+  {
+    var command = new GetBooksQuery();
+    var result = await _mediator.Send(command);
+    return Ok(result);
   }
 }

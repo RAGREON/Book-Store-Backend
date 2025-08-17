@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Store.Api.DTOs;
 using Store.Commands;
 using Store.Data;
@@ -18,17 +19,16 @@ public class CreateBookHandler : IRequestHandler<CreateBookCommand, BookDto>
   public async Task<BookDto> Handle(CreateBookCommand request, CancellationToken cancellationToken)
   {
     var dto = request.BookDto;
+    var genres = await _context.Genres
+      .Where(g => dto.GenreIDs.Contains(g.Id))
+      .ToListAsync(cancellationToken);
 
     var book = new Book
     {
       Name = dto.Name,
       ReleaseDate = dto.ReleaseDate,
       Description = dto.Description,
-      Genres = dto.Genres.Select(g => new Genre
-      {
-        Id = g.Id,
-        Name = g.Name
-      }).ToList()
+      Genres = genres
     };
 
     _context.Books.Add(book);

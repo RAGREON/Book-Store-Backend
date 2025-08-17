@@ -2,6 +2,7 @@ using Store.Data;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Reflection;
+using Store.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,13 @@ var app = builder.Build();
 // Swagger UI for testing apis
 app.UseSwagger();
 app.UseSwaggerUI();
+
+// Global Exception Middlewares
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Routing and Authorization
+app.UseRouting();
+app.UseAuthorization();
 
 // Mapping controllers
 app.MapControllers();
