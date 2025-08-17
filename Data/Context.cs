@@ -28,6 +28,11 @@ public class AppDbContext : DbContext
       .HasForeignKey(r => r.BookId)
       .OnDelete(DeleteBehavior.Cascade);
 
+    modelBuilder.Entity<Review>()
+      .Property(r => r.ReviewDate)
+      .HasDefaultValueSql("NOW()")
+      .Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
+
     base.OnModelCreating(modelBuilder);
   }
 }
