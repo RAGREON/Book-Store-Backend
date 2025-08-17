@@ -7,6 +7,7 @@ public class AppDbContext : DbContext
 {
   public DbSet<Book> Books => Set<Book>();
   public DbSet<Genre> Genres => Set<Genre>();
+  public DbSet<Review> Reviews => Set<Review>();
 
   public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
@@ -20,6 +21,12 @@ public class AppDbContext : DbContext
     modelBuilder.Entity<Genre>()
       .HasIndex(g => g.Name)
       .IsUnique();
+
+    modelBuilder.Entity<Review>()
+      .HasOne(r => r.Book)
+      .WithMany(b => b.Reviews)
+      .HasForeignKey(r => r.BookId)
+      .OnDelete(DeleteBehavior.Cascade);
 
     base.OnModelCreating(modelBuilder);
   }
