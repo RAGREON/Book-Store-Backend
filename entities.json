@@ -1,6 +1,7 @@
 {
   "entities": [
     "Book",
-    "Review"
+    "Review",
+    "Genre"
   ]
 }
