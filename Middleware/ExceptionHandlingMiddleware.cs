@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Store.Exceptions;
+using FluentValidation;
 
 namespace Store.Middlewares;
 
@@ -32,16 +33,26 @@ public class ExceptionHandlingMiddleware
     }
   }
 
-
   private static Task HandleExceptionAsync(HttpContext context, Exception ex)
   {
     var statusCode = StatusCodes.Status500InternalServerError;
     var title = "An unexpected error occurred";
+    object? errors = null;
 
     if (ex is NotFoundException) 
     {
       statusCode = StatusCodes.Status404NotFound;
       title = ex.Message;
+    }
+    else if (ex is ValidationException validationEx)
+    {
+      statusCode = StatusCodes.Status400BadRequest;
+      title = "Validation Failed";
+      errors = validationEx.Errors.Select(e => new
+      {
+        e.PropertyName,
+        e.ErrorMessage
+      });
     }
 
     var problemDetails = new ProblemDetails
@@ -53,6 +64,16 @@ public class ExceptionHandlingMiddleware
 
     context.Response.ContentType = "application/json";
     context.Response.StatusCode = statusCode;
+
+    if (errors != null) 
+    {
+      return context.Response.WriteAsJsonAsync(new
+      {
+        problemDetails.Title,
+        problemDetails.Status,
+        Errors = errors
+      });
+    }
 
     return context.Response.WriteAsJsonAsync(problemDetails);
   }

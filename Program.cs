@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Reflection;
 using Store.Middlewares;
+using Store.Validators;
+using Store.Pipelines;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,12 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Get
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Validator
+builder.Services.AddValidatorsFromAssemblyContaining<CreateReviewCommandValidator>();
+
+// Validation Pipeline
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<, >));
 
 var app = builder.Build();
 
