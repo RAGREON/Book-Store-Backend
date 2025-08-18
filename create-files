@@ -1,0 +1,22 @@
+#!/bin/bash
+
+touch "./Models/$1/$1.cs"
+touch "./Controllers/$1/$1Controller.cs"
+
+touch "./Commands/$1/Create$1Command.cs"
+touch "./Commands/$1/Update$1Command.cs"
+touch "./Commands/$1/Delete$1Command.cs"
+
+touch "./Handlers/Commands/$1/Create$1Handler.cs"
+touch "./Handlers/Commands/$1/Update$1Handler.cs"
+touch "./Handlers/Commands/$1/Delete$1Handler.cs"
+
+touch "./Queries/$1/Get$1sQuery.cs"
+touch "./Queries/$1/Get$1ByIdQuery.cs"
+
+touch "./Handlers/Queries/$1/Get$1sHandler.cs"
+touch "./Handlers/Queries/$1/Get$1ByIdHandler.cs"
+
+touch "./DTOs/$1/$1Dto.cs"
+touch "./DTOs/$1/Create$1Dto.cs"
+touch "./DTOs/$1/Update$1Dto.cs"

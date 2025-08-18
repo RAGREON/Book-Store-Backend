@@ -1,9 +1,9 @@
 Commands
-Commands/Handlers
+Handlers/Commands
 Controllers
 DTOs
 Middleware
 Models
 Queries
-Queries/Handlers
+Handlers/Queries
 Services

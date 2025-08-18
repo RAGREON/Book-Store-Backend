@@ -62,3 +62,6 @@ read_line_to_array "./folders.txt" folders
 for folder in "${folders[@]}"; do
   mkdir -p "$folder/$entity_name"
 done
+
+# Populating entity's folders 
+./create-files $1

@@ -2,6 +2,7 @@
   "entities": [
     "Book",
     "Review",
-    "Genre"
+    "Genre",
+    "User"
   ]
 }
