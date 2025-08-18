@@ -26,4 +26,13 @@ public class ReviewController : ControllerBase
     var result = await _mediator.Send(command);
     return Ok(result);
   }
+
+  [HttpGet]
+  [Route("all")]
+  public async Task<IActionResult> GetReviews() 
+  {
+    var command = new GetReviewsQuery();
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
 }

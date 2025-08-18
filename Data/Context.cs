@@ -29,7 +29,7 @@ public class AppDbContext : DbContext
       .OnDelete(DeleteBehavior.Cascade);
 
     modelBuilder.Entity<Review>()
-      .Property(r => r.ReviewDate)
+      .Property(r => r.CreatedAt)
       .HasDefaultValueSql("NOW()")
       .Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
 

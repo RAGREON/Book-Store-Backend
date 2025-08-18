@@ -7,18 +7,19 @@ using Store.Api.Models;
 
 namespace Queries.Handlers;
 
-public class GetReviewsHandler : IRequestHandler<GetReviewsQuery, List<ReviewDto>>
+public class GetReviewsByBookIdHandler : IRequestHandler<GetReviewsByBookIdQuery, List<ReviewDto>>
 {
   private readonly AppDbContext _context;
 
-  public GetReviewsHandler(AppDbContext context)
+  public GetReviewsByBookIdHandler(AppDbContext context)
   {
     _context = context;
   }
 
-  public async Task<List<ReviewDto>> Handle(GetReviewsQuery request, CancellationToken cancellationToken)
+  public async Task<List<ReviewDto>> Handle(GetReviewsByBookIdQuery request, CancellationToken cancellationToken)
   {
     var reviews = await _context.Reviews
+      .Where(r => r.BookId == request.BookId)
       .Select(r => new ReviewDto
       (
         r.Id,
@@ -26,7 +27,8 @@ public class GetReviewsHandler : IRequestHandler<GetReviewsQuery, List<ReviewDto
         r.Description,
         r.BookId,
         r.CreatedAt 
-      )).ToListAsync(cancellationToken);
+      ))
+      .ToListAsync(cancellationToken);
 
     return reviews;
   }

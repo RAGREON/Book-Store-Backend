@@ -21,5 +21,5 @@ public class Review
   [ForeignKey("BookId")]
   public Book? Book { get; set; }
 
-  public DateTime ReviewDate { get; set; } = DateTime.UtcNow;
+  public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

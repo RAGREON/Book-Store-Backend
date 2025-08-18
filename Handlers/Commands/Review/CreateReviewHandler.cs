@@ -19,8 +19,6 @@ public class CreateReviewHandler : IRequestHandler<CreateReviewCommand, ReviewDt
   
   public async Task<ReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
   {
-    
-
     var dto = request.ReviewDto;
     var book = await _context.Books
       .AsNoTracking()
@@ -47,7 +45,7 @@ public class CreateReviewHandler : IRequestHandler<CreateReviewCommand, ReviewDt
       review.Rating,
       review.Description,
       review.BookId,
-      review.ReviewDate
+      review.CreatedAt
     );
   }
 }
