@@ -4,6 +4,7 @@ using Store.Api.Models;
 using Store.Api.DTOs;
 using Store.Commands;
 using Store.Queries;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Store.Api.Controllers;
 
@@ -45,6 +46,24 @@ public class BookController : ControllerBase
   public async Task<ActionResult<List<BookDto>>> GetBooks()
   {
     var command = new GetBooksQuery();
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpPut]
+  [Route("{id}")]
+  public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] UpdateBookDto dto)
+  {
+    var command = new UpdateBookCommand(id, dto);
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpPatch]
+  [Route("{id}")]
+  public async Task<IActionResult> PatchBook([FromRoute] int id, [FromBody]  UpdateBookPartialDto dto) 
+  {
+    var command = new PatchBookCommand(id, dto);
     var result = await _mediator.Send(command);
     return Ok(result);
   }

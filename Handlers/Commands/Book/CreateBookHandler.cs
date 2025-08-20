@@ -25,7 +25,8 @@ public class CreateBookHandler : IRequestHandler<CreateBookCommand, BookDto>
 
     var book = new Book
     {
-      Name = dto.Name,
+      Title = dto.Title,
+      Author = dto.Author,
       ReleaseDate = dto.ReleaseDate,
       Description = dto.Description,
       Genres = genres
@@ -37,7 +38,8 @@ public class CreateBookHandler : IRequestHandler<CreateBookCommand, BookDto>
     return new BookDto
     (
       book.Id,
-      book.Name,
+      book.Title,
+      book.Author,
       book.ReleaseDate,
       book.Description,
       book.Genres.Select(g => new GenreDto(g.Id, g.Name)).ToList()

@@ -25,7 +25,8 @@ public class GetReviewsHandler : IRequestHandler<GetReviewsQuery, List<ReviewDto
         r.Rating,
         r.Description,
         r.BookId,
-        r.CreatedAt 
+        r.CreatedAt,
+        r.EditedAt
       )).ToListAsync(cancellationToken);
 
     return reviews;

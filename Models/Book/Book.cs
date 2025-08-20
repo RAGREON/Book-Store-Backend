@@ -11,7 +11,11 @@ public class Book
 
   [Required]
   [StringLength(100)]
-  public required string Name { get; set; }
+  public required string Title { get; set; }
+
+  [Required]
+  [StringLength(100)]
+  public required string Author { get; set; }
 
   [Column(TypeName = "date")]
   public DateOnly ReleaseDate { get; set; }

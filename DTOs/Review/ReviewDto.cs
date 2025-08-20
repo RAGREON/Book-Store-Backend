@@ -8,5 +8,6 @@ public record class ReviewDto
   short Rating,
   string? Description,
   int BookId,
-  DateTime CreatedAt
+  DateTime CreatedAt,
+  DateTime? EditedAt
 );

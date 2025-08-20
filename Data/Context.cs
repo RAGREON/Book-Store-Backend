@@ -33,6 +33,35 @@ public class AppDbContext : DbContext
       .HasDefaultValueSql("NOW()")
       .Metadata.SetAfterSaveBehavior(Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore);
 
+    var editedAtProperty = modelBuilder.Entity<Review>()
+      .Property(r => r.EditedAt)
+      .HasDefaultValueSql("NULL")
+      .Metadata;
+
     base.OnModelCreating(modelBuilder);
+  }
+
+  public override int SaveChanges()
+  {
+    UpdateEditedTimestamps();
+    return base.SaveChanges();
+  }
+
+  public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+  {
+    UpdateEditedTimestamps();
+    return await base.SaveChangesAsync(cancellationToken);
+  }
+
+  private void UpdateEditedTimestamps()
+  {
+    var modifiedReviews = ChangeTracker
+      .Entries<Review>()
+      .Where(e => e.State == EntityState.Modified);
+
+    foreach (var entry in modifiedReviews)
+    {
+      entry.Entity.EditedAt = DateTime.UtcNow; 
+    }
   }
 }

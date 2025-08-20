@@ -29,7 +29,8 @@ public class GetBookByIdHandler : IRequestHandler<GetBookByIdQuery, BookDto>
 
     return new BookDto(
       book.Id,
-      book.Name,
+      book.Title,
+      book.Author,
       book.ReleaseDate,
       book.Description,
       book.Genres.Select(g => new GenreDto(g.Id, g.Name)).ToList()

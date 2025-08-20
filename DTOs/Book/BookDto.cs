@@ -5,7 +5,8 @@ namespace Store.Api.DTOs;
 public record class BookDto 
 (
   int Id,
-  string Name,
+  string Title,
+  string Author,
   DateOnly ReleaseDate,
   string Description,
   List<GenreDto> Genres

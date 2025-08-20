@@ -45,7 +45,8 @@ public class CreateReviewHandler : IRequestHandler<CreateReviewCommand, ReviewDt
       review.Rating,
       review.Description,
       review.BookId,
-      review.CreatedAt
+      review.CreatedAt,
+      review.EditedAt
     );
   }
 }

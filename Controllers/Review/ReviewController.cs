@@ -18,7 +18,6 @@ public class ReviewController : ControllerBase
     _mediator = mediator;
   }
 
-
   [HttpPost]
   public async Task<IActionResult> CreateReview([FromBody] CreateReviewDto dto)
   {
@@ -32,6 +31,33 @@ public class ReviewController : ControllerBase
   public async Task<IActionResult> GetReviews() 
   {
     var command = new GetReviewsQuery();
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpGet]
+  [Route("Book/{id}")]
+  public async Task<IActionResult> GetReviewsByBookId([FromRoute] int id)
+  {
+    var command = new GetReviewsByBookIdQuery(id);
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpGet]
+  [Route("Book/{id}/avg")]
+  public async Task<IActionResult> GetAverageBookRating([FromRoute] int id)
+  {
+    var command = new GetAverageBookRatingQuery(id);
+    var result = await _mediator.Send(command);
+    return Ok(result);
+  }
+
+  [HttpPut]
+  [Route("{id}")]
+  public async Task<IActionResult> UpdateReview([FromRoute] int id, [FromBody] UpdateReviewDto dto)
+  {
+    var command = new UpdateReviewCommand(id, dto);
     var result = await _mediator.Send(command);
     return Ok(result);
   }
