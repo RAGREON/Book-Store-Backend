@@ -26,4 +26,6 @@ public class Book
   public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
   public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+  public ICollection<BookImage> Images { get; set; } = new List<BookImage>();
 }

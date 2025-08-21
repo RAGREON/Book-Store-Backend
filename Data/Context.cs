@@ -38,6 +38,17 @@ public class AppDbContext : DbContext
       .HasDefaultValueSql("NULL")
       .Metadata;
 
+    modelBuilder.Entity<BookImage>()
+      .HasOne(bi => bi.Book)
+      .WithMany(b => b.Images)
+      .HasForeignKey(bi => bi.BookId)
+      .OnDelete(DeleteBehavior.Cascade);
+
+    modelBuilder.Entity<BookImage>()
+      .HasIndex(bi => new { bi.BookId, bi.Type })
+      .IsUnique()
+      .HasFilter(@"""Type"" = 0");
+
     base.OnModelCreating(modelBuilder);
   }
 
