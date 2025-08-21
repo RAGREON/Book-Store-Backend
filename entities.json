@@ -3,6 +3,7 @@
     "Book",
     "Review",
     "Genre",
-    "User"
+    "User",
+    "BookImage"
   ]
 }
