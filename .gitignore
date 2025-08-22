@@ -14,7 +14,7 @@
 *.sln.docstates
 
 # Images
-.uploads
+./uploads
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
